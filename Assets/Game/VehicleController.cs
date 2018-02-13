@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class VehicleController : MonoBehaviour {
 
@@ -21,6 +19,13 @@ public class VehicleController : MonoBehaviour {
 
 
     void FixedUpdate()
+    {
+        if (GameObject.Find("GameLevelManager").GetComponent<GameLevelManager>().isStarted)
+            MovementController();
+
+    }
+
+    void MovementController()
     {
         curspeed = new Vector2(actualRigidbody2D.velocity.x, actualRigidbody2D.velocity.y);
 
@@ -50,7 +55,6 @@ public class VehicleController : MonoBehaviour {
         }
 
         Decelerate();
-
     }
 
     void Decelerate()
@@ -58,10 +62,10 @@ public class VehicleController : MonoBehaviour {
         bool gas = false;
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S))
             gas = !gas;
-        
+
 
         if (!gas)
             actualRigidbody2D.drag = friction * 2;
-        
+
     }
 }
