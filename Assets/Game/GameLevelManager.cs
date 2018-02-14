@@ -20,6 +20,17 @@ public class GameLevelManager : MonoBehaviour {
     private int generalCountChecks = 0;
     public int[] checkpointsNumbers;
 
+    public GameObject winingPanel;
+
+    public int goldTime = 10;
+    public Sprite goldMedal;
+    public int silverTime = 14;
+    public Sprite silverMedal;
+    public int bronzeTime = 16;
+    public Sprite bronzeMedal;
+
+    public Image medalImage;
+    public Text timeWinText;
 
     // Use this for initialization
     void Start () {
@@ -77,13 +88,23 @@ public class GameLevelManager : MonoBehaviour {
         if (isWin)
         {
             Time.timeScale = 0;
-            panelCountdown.SetActive(true);
+            winingPanel.SetActive(true);
             //countdown.text = "Finish: ";
             TimeSpan timeSpan = TimeSpan.FromSeconds(actualTime);
+
+            if (actualTime <= goldTime)
+                medalImage.sprite = goldMedal;
+            else if (actualTime <= silverTime && actualTime > goldTime)
+                medalImage.sprite = silverMedal;
+            else if(actualTime > silverTime)
+                medalImage.sprite = bronzeMedal;
+
             if (timeSpan.Hours > 0)
-                countdown.text = string.Format("TIME: {0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+                timeWinText.text = string.Format("TIME: {0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
             else
-                countdown.text = string.Format("TIME: {0:D2}:{1:D2}", timeSpan.Minutes, timeSpan.Seconds);
+                timeWinText.text = string.Format("TIME: {0:D2}:{1:D2}", timeSpan.Minutes, timeSpan.Seconds);
+
+
         }
         
             checkpointsNumbers = new int[maxCheckpoints];
